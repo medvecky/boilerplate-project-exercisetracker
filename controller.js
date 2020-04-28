@@ -57,9 +57,6 @@ const addExerciseToUserLog = (req, res) => {
 const getUserLog = (req, res) => {
 
     const userId = req.query.userId;
-    const from = req.query['from'];
-    const to = req.query['to'];
-    const limit = req.query['limit'];
 
     User.findById(userId).then((user) => {
         if (user == null) {
