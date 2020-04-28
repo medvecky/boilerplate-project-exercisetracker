@@ -42,7 +42,7 @@ const addExerciseToUserLog = (req, res) => {
                console.log(docs);
                returnValue.count += 1;
                returnValue.log.push(logEntry);
-               res.json(returnValue);
+               res.json(docs);
             }
         });
 
