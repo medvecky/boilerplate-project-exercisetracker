@@ -41,7 +41,7 @@ const addExerciseToUserLog = (req, res) => {
                     _id: docs._id,
                     description: description,
                     duration: duration,
-                    date: logEntry.date
+                    date: date || new Date().toUTCString()
                 };
                 res.json(returnValue);
             }
