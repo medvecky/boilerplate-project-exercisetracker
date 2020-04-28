@@ -38,7 +38,7 @@ const addExerciseToUserLog = (req, res) => {
             } else {
                 let dateString;
                 if (date) {
-                    dateString = Date.parse(date);
+                    dateString = new Date(date).toDateString();
                 } else {
                     dateString = new Date().toDateString();
                 }
@@ -46,7 +46,7 @@ const addExerciseToUserLog = (req, res) => {
                     username: docs.username,
                     _id: docs._id,
                     description: description,
-                    duration: duration,
+                    duration: parseInt(duration),
                     date: dateString
                 };
                 res.json(returnValue);
