@@ -43,9 +43,7 @@ const addExerciseToUserLog = (req, res) => {
                     duration: duration,
                     date: logEntry.date
                 };
-                returnValue.count += 1;
-                returnValue.log.push(logEntry);
-                res.json(docs);
+                res.json(returnValue);
             }
         });
 };
