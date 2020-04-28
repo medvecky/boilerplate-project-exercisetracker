@@ -104,10 +104,10 @@ const getUserLog = (req, res) => {
             }
 
             res.json({
-                _id: userId,
                 username: userName,
-                count: count,
-                log
+                _id: userId,
+                log,
+                count: count
             });
         }
     });
