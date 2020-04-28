@@ -78,8 +78,43 @@ const getUserLog = (req, res) => {
     //     }
     // });
 
-    User.findById(userid).then((user) => res.json(user));
+    User.findById(userid).then((user) => {
+        if (user == null){
+            res.send({"error":"User not found"});
+        }else{
+            let results = user.log;
+            let userId = user._id;
+            let userName = user.username;
+            let count = user.count;
+            let log = user.log;
+            let fromDate = new Date(req.query.from);
+            let toDate = new Date(req.query.to);
+            let limit = Number(req.query.limit);
+            //check if to is defined
+            if (isValidDate(toDate)){
+                log = log.filter((item) => (item.date >= fromDate && item.date <= toDate));
+                //check if just from defined
+            }else if(isValidDate(fromDate)){
+                log = log.filter((item)=>(item.date >= fromDate))
+            }
+            //apply limit if defined and applicable
+            if (!isNaN(limit) && results.length > limit){
+                log = log.slice(0,limit);
+            }
+
+            res.json({
+                _id: userId,
+                username: userName,
+                count: count,
+                log
+            });
+        }
+    });
 };
+
+function isValidDate(d) {
+    return d instanceof Date && !isNaN(d);
+}
 
 module.exports = {
     addUser: addUser,
