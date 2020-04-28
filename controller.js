@@ -17,7 +17,7 @@ const addUser = (req, res) => {
 };
 
 const getAllUsers = (req, res) => {
-    User.find({}, (err, docs) => res.json(docs)).select({count: 0, __v: 0, log: 0});
+    User.find({}, (err, docs) => res.json(docs)).select({count: 0, __v: 0});
 };
 
 const addExerciseToUserLog = (req, res) => {
@@ -44,7 +44,7 @@ const addExerciseToUserLog = (req, res) => {
             $push: {log: log},
             $inc: {count: 1},
         }, (err, docs) => (
-            docs ? res.json(log) : res.send('User does not exist.')));
+            docs ? res.json(docs) : res.send('User does not exist.')));
 };
 
 const getUserLog = (req, res) => {
@@ -67,16 +67,18 @@ const getUserLog = (req, res) => {
     const toFilter = (currentDate, toDate) => (toDate
         ? Date.parse(currentDate) < Date.parse(toDate) : currentDate);
 
-    User.findById(userid).then((user) => {
-        const logs = user.log
-            .filter(l => fromFilter(l.date, from))
-            .filter(l => toFilter(l.date, to));
-        if (limit && limit < logs.length) {
-            res.send(logs.slice(0,limit));
-        } else {
-            res.send(logs);
-        }
-    });
+    // User.findById(userid).then((user) => {
+    //     const logs = user.log
+    //         .filter(l => fromFilter(l.date, from))
+    //         .filter(l => toFilter(l.date, to));
+    //     if (limit && limit < logs.length) {
+    //         res.send(logs.slice(0,limit));
+    //     } else {
+    //         res.send(logs);
+    //     }
+    // });
+
+    User.findById(userid).then((user) => res.json(user));
 };
 
 module.exports = {
