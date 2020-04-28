@@ -14,7 +14,7 @@ const exerciseSchema = new Schema({
     },
     date: {
         type: Date,
-        default: Date.now,
+        default: Date.now
     },
 });
 
@@ -31,7 +31,7 @@ const userSchema = new Schema({
         type: Number,
         default: 0,
     },
-    log: [exerciseSchema],
+    log: [exerciseSchema]
 });
 
 userSchema.pre('save', function (next) {
