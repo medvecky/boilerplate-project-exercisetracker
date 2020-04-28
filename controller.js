@@ -43,8 +43,18 @@ const addExerciseToUserLog = (req, res) => {
         {
             $push: {log: log},
             $inc: {count: 1},
-        }, (err, docs) => (
-            docs ? res.json(docs) : res.send('User does not exist.')));
+        }, (err, docs) => {
+            if(err) {
+                res.send('User does not exist.');
+            } else {
+               let returnValue = docs;
+               console.log(docs);
+               returnValue.count += 1;
+               returnValue.log.push(log);
+               res.json(returnValue);
+            }
+        });
+
 };
 
 const getUserLog = (req, res) => {
