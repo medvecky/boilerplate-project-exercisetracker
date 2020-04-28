@@ -26,7 +26,7 @@ const addExerciseToUserLog = (req, res) => {
     const date = req.body.date;
 
     const logEntry = {description, duration};
-    if (date) logEntry.date = Date.parse(date);
+    if (date) logEntry.date = new Date(date).toDateString();
 
     User.findOneAndUpdate({_id: req.body.userId},
         {
@@ -36,12 +36,18 @@ const addExerciseToUserLog = (req, res) => {
             if (err) {
                 res.send('User does not exist.');
             } else {
+                let dateString;
+                if (date) {
+                    dateString = Date.parse(date);
+                } else {
+                    dateString = new Date().toDateString();
+                }
                 let returnValue = {
                     username: docs.username,
                     _id: docs._id,
                     description: description,
                     duration: duration,
-                    date: date ? (Date.parse(date)).toDateString() : (new Date()).toDateString()
+                    date: dateString
                 };
                 res.json(returnValue);
             }
