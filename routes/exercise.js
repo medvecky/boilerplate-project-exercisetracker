@@ -10,7 +10,7 @@ const getUserLog = controller.getUserLog;
 router.post('/new-user', addUser);
 router.get('/users', getAllUsers);
 router.post('/add', addExerciseToUserLog);
-router.get('/log/:userid', getUserLog);
+router.get('/log/', getUserLog);
 
 
 module.exports = router;

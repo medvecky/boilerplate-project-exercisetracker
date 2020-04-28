@@ -17,7 +17,7 @@ const addUser = (req, res) => {
 };
 
 const getAllUsers = (req, res) => {
-    User.find({}, (err, docs) => res.json(docs)).select({count: 0, __v: 0});
+    User.find({}, (err, docs) => res.json(docs)).select({count: 0, __v: 0, log:0});
 };
 
 const addExerciseToUserLog = (req, res) => {
@@ -50,7 +50,7 @@ const addExerciseToUserLog = (req, res) => {
 
 const getUserLog = (req, res) => {
 
-    const { userid } = req.params;
+    const userId = req.query.userId;
     const from = req.query['from'];
     const to = req.query['to'];
     const limit = req.query['limit'];
@@ -79,7 +79,7 @@ const getUserLog = (req, res) => {
     //     }
     // });
 
-    User.findById(userid).then((user) => {
+    User.findById(userId).then((user) => {
         if (user == null){
             res.send({"error":"User not found"});
         }else{
