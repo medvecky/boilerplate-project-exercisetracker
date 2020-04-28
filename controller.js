@@ -23,25 +23,16 @@ const getAllUsers = (req, res) => {
 const addExerciseToUserLog = (req, res) => {
     console.log("Add exercise log");
     console.log(req.body);
-    let log;
+    const description = req.body.description;
+    const duration = req.body.duration;
+    const date = req.body.date;
 
-    if(req.body.date === '') {
-        log = {
-            description: req.body.description,
-            duration: req.body.duration
-        };
-    } else {
-        log = {
-            description: req.body.description,
-            duration: req.body.duration,
-            date: req.body.date
-        };
-
-    }
+    const logEntry = {description, duration};
+    if (date) logEntry.date = Date.parse(date);
 
     User.findOneAndUpdate({_id: req.body.userId},
         {
-            $push: {log: log},
+            $push: {log: logEntry},
             $inc: {count: 1},
         }, (err, docs) => {
             if(err) {
@@ -50,7 +41,7 @@ const addExerciseToUserLog = (req, res) => {
                let returnValue = docs;
                console.log(docs);
                returnValue.count += 1;
-               returnValue.log.push(log);
+               returnValue.log.push(logEntry);
                res.json(returnValue);
             }
         });
